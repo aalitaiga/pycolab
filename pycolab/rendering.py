@@ -171,7 +171,7 @@ class BaseObservationRenderer(object):
       presented to this `BaseObservationRenderer` since the last call to its
       `clear()` method.
     """
-    for character, layer in self._layers.iteritems():
+    for character, layer in self._layers.items():
       np.equal(self._board, ord(character), out=layer)
     return Observation(board=self._board, layers=self._layers)
 
@@ -262,7 +262,7 @@ class ObservationCharacterRepainter(object):
     # Determine whether we need to (re)allocate the layer storage for this new
     # (possibly differently-shaped) observation. If we do, do it.
     if ((self._layers is None) or
-        (next(self._layers.itervalues()).shape !=
+        (next(iter(self._layers.values())).shape !=
          original_observation.board.shape)):
       rows, cols = original_observation.board.shape
       self._layers = {char: np.zeros((rows, cols), dtype=np.bool_)
@@ -273,7 +273,7 @@ class ObservationCharacterRepainter(object):
     board = self._board_converter(original_observation)
 
     # Compute the mask layers from the newly repainted board.
-    for character, layer in self._layers.iteritems():
+    for character, layer in self._layers.items():
       np.equal(board, ord(character), out=layer)
 
     # Return the new observation.
@@ -305,7 +305,7 @@ class ObservationCharacterRepainter(object):
 
     def itervalues(self):
       my_class = ObservationCharacterRepainter._DefaultToIdentityAsciiMapping  # pylint: disable=protected-access
-      return (np.uint8(ord(c)) for c in super(my_class, self).itervalues())
+      return (np.uint8(ord(c)) for c in super(my_class, self).values())
 
 
 class ObservationToArray(object):

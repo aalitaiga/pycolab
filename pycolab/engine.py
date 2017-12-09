@@ -685,7 +685,7 @@ class Engine(object):
     """
     self._renderer.clear()
     self._renderer.paint_all_of(self._backdrop.curtain)
-    for character, entity in self._sprites_and_drapes.iteritems():
+    for character, entity in self._sprites_and_drapes.items():
       # By now we should have checked fairly carefully that all entities in
       # _sprites_and_drapes are Sprites or Drapes.
       if isinstance(entity, things.Sprite) and entity.visible:

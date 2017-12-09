@@ -54,7 +54,7 @@ impossible---like walk into a wall, or scroll partially off of the screen (if
 that's something you care about). This is done via this module's `permit`
 function.
 
-By the time the next game iteration rolls around, whichever entity wants to
+By the time the next game eation rolls around, whichever entity wants to
 scroll the world can check whether a particular scrolling motion is acceptable
 to all egocentric entities (via the `is_possible` function). If it is, it can
 issue a "scrolling order" to all of the participating entities via the `order`

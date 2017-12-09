@@ -129,15 +129,15 @@ def ascii_art_to_game(art,
   if sprites is None: sprites = {}
   if drapes is None: drapes = {}
   sprites = {char: sprite if isinstance(sprite, Partial) else Partial(sprite)
-             for char, sprite in sprites.iteritems()}
+             for char, sprite in sprites.items()}
   drapes = {char: drape if isinstance(drape, Partial) else Partial(drape)
-            for char, drape in drapes.iteritems()}
+            for char, drape in drapes.items()}
 
   # Likewise, turn a bare Backdrop class into an argument-free Partial.
   if not isinstance(backdrop, Partial): backdrop = Partial(backdrop)
 
   # Compile characters corresponding to all Sprites and Drapes.
-  non_backdrop_characters = set(sprites.keys() + drapes.keys())
+  non_backdrop_characters = set(list(sprites.keys()) + list(drapes.keys()))
   if update_schedule is None: update_schedule = list(non_backdrop_characters)
 
   # If update_schedule is a string (someone wasn't reading the docs!),
@@ -228,7 +228,7 @@ def ascii_art_to_game(art,
     # Switch to this character's update group.
     game.update_group(update_group_for[character])
     # Find locations where this character appears in the ASCII art.
-    mask = art == character
+    mask = art == np.array(character, dtype='|S1')
 
     if character in drapes:
       # Add the drape to the Engine.
@@ -261,9 +261,10 @@ def ascii_art_to_game(art,
   game.set_z_order(z_order)
 
   ### 7. Add the Backdrop to the engine ###
-
+  # import ipdb; ipdb.set_trace()
+  characs = [a.decode('utf-8') for a in np.unique(art).tolist()]
   game.set_prefilled_backdrop(
-      characters=''.join(np.unique(art)),
+      characters=''.join(characs),
       prefill=art.view(np.uint8),
       backdrop_class=backdrop.pycolab_thing,
       *backdrop.args, **backdrop.kwargs)

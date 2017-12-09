@@ -497,8 +497,9 @@ class MazeWalker(things.Sprite):
       `MazeWalker`. See class docstring for details.
     """
 
-    def at((drow, dcol)):
+    def at(dpos):
       """Report character at egocentric coordinates `(drow, dcol)`."""
+      drow, dcol = dpos
       new_row = self._virtual_row + drow
       new_col = self._virtual_col + dcol
       if not self._on_board(new_row, new_col): return self.EDGE
